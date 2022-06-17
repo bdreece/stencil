@@ -1,0 +1,26 @@
+[
+    {
+        "id": "cpp",
+        "name": "C++"
+    },
+    {
+        "id": "go",
+        "name": "Go"
+    },
+    {
+        "id": "java",
+        "name": "Java"
+    },
+    {
+        "id": "js",
+        "name": "Javascript"
+    },
+    {
+        "id": "py",
+        "name": "Python"
+    },
+    {
+        "id": "rs",
+        "name": "Rust"
+    }
+]

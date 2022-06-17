@@ -48,42 +48,58 @@
     onMount(() => (condition = true));
 
     const duration = 500;
-    const createProject = writable(false);
-    const openProject = writable(false);
+    const createProject = {
+        isActive: writable(false),
+        project,
+    };
+    const openProject = {
+        isActive: writable(false),
+        project,
+    };
 </script>
 
 {#if condition}
     <div class="container is-fluid">
-        <h2
-            class="is-size-2 has-text-centered my-4"
-            transition:fade={{ delay: 250, duration }}
-        >
-            Welcome to Stencil!
-        </h2>
-        <p
-            class="has-text-centered mb-4"
-            transition:fade={{ delay: 500, duration }}
-        >
-            A boilerplate code generator for bootstrapping new projects.
-        </p>
-        <div
-            class="buttons is-justify-content-center"
-            transition:fade={{ delay: 750, duration }}
-        >
-            <button
-                class="button is-link"
-                on:click={() => ($createProject = true)}
+        <div class="box">
+            <section class="hero">
+                <div class="hero-body">
+                    <p class="title" transition:fade={{ delay: 250, duration }}>
+                        Welcome to Stencil!
+                    </p>
+                    <p
+                        class="subtitle"
+                        transition:fade={{ delay: 500, duration }}
+                    >
+                        A boilerplate code generator for bootstrapping new
+                        projects.
+                    </p>
+                </div>
+            </section>
+            <div
+                class="buttons is-justify-content-center"
+                transition:fade={{ delay: 750, duration }}
             >
-                Create New Project
-            </button>
-            <button
-                class="button is-link"
-                on:click={() => ($openProject = true)}
-            >
-                Open Existing Project
-            </button>
+                <button
+                    class="button is-child is-link"
+                    on:click={() => createProject.isActive.set(true)}
+                >
+                    <span class="icon">
+                        <i class="fa-solid fa-file-circle-plus" />
+                    </span>
+                    <p>Create New Project</p>
+                </button>
+                <button
+                    class="button is-child is-link is-light"
+                    on:click={() => openProject.isActive.set(true)}
+                >
+                    <span class="icon">
+                        <i class="fa-solid fa-file-import" />
+                    </span>
+                    <p>Open Existing Project</p>
+                </button>
+            </div>
         </div>
-        <CreateProjectModal {project} isActive={createProject} />
-        <OpenProjectModal isActive={openProject} />
+        <CreateProjectModal {...createProject} />
+        <OpenProjectModal {...openProject} />
     </div>
 {/if}

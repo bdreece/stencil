@@ -20,7 +20,6 @@
     import { writable } from 'svelte/store';
 
     import Navbar from './lib/Navbar.svelte';
-    import AboutView from './views/AboutView.svelte';
     import LandingView, { LandingViewProps } from './views/LandingView.svelte';
     import View from './scripts/view';
 
@@ -40,10 +39,8 @@
 </script>
 
 <div id="app">
-    <Navbar {activeView} />
+    <Navbar />
     {#if _activeView == View.LANDING}
         <LandingView {...landingView} />
-    {:else if _activeView == View.ABOUT}
-        <AboutView />
     {/if}
 </div>

@@ -17,7 +17,7 @@
      * along with this program.  If not, see <https://www.gnu.org/licenses/>.
      */
 
-    import type { ProjectObject } from '../scripts/project';
+    import type { ProjectData } from '../scripts/project';
 </script>
 
 <script lang="ts">
@@ -25,7 +25,7 @@
     import Modal from '../components/Modal.svelte';
     import languages from '../assets/languages.json';
 
-    let _project: ProjectObject = {
+    let _project: ProjectData = {
         name: '',
         language: '',
     };
@@ -35,36 +35,52 @@
 </script>
 
 <Modal background {isActive}>
-    <svelte:fragment slot="title">Create New Project</svelte:fragment>
+    <svelte:fragment slot="title">
+        <span class="icon">
+            <i class="fa-solid fa-file-circle-plus" />
+        </span>
+        Create New Project
+    </svelte:fragment>
     <svelte:fragment slot="body">
         <div class="field">
-            <label class="label" for="name">Project Name</label>
+            <label class="label" for="name">Name</label>
             <div id="name" class="control">
-                <input class="input" type="text" bind:value={_project.name} />
+                <input
+                    class="input is-rounded"
+                    type="text"
+                    bind:value={_project.name}
+                />
             </div>
         </div>
         <div class="field">
-            <label class="label" for="brief">Project Brief</label>
-            <div id="brief" class="control">
-                <input class="input" type="text" bind:value={_project.about} />
-            </div>
-        </div>
-        <div class="field">
-            <label class="label" for="description">Project Description</label>
-            <div id="description" class="control">
-                <textarea class="textarea" bind:value={_project.longAbout} />
-            </div>
-        </div>
-        <div class="field">
-            <label class="label" for="language">Project Language</label>
+            <label class="label" for="language">Language</label>
             <div id="language" class="control">
-                <div class="select">
+                <div class="select is-rounded">
                     <select bind:value={_project.language}>
                         {#each languages as lang}
                             <option value={lang.id}>{lang.name}</option>
                         {/each}
                     </select>
                 </div>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label" for="brief">Brief</label>
+            <div id="brief" class="control">
+                <input
+                    class="input is-rounded"
+                    type="text"
+                    bind:value={_project.about}
+                />
+            </div>
+        </div>
+        <div class="field">
+            <label class="label" for="description">Description</label>
+            <div id="description" class="control">
+                <textarea
+                    class="textarea is-rounded"
+                    bind:value={_project.longAbout}
+                />
             </div>
         </div>
     </svelte:fragment>

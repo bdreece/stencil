@@ -18,28 +18,48 @@
      */
 
     import type { Writable } from 'svelte/store';
+    import type { ProjectData } from 'src/scripts/project';
 </script>
 
 <script lang="ts">
     import Modal from '../components/Modal.svelte';
 
     export let isActive: Writable<boolean>;
+    export let project: Writable<ProjectData>;
+
+    async function loadProject() {
+        if (file == null) {
+            alert('Please upload a stencil.json file');
+        }
+        const text = await file.text();
+        return JSON.parse(text);
+    }
 
     let files: FileList;
     $: file = files != null && files.length > 0 ? files.item(0) : null;
 </script>
 
 <Modal background {isActive}>
-    <svelte:fragment slot="title">Open Existing Project</svelte:fragment>
+    <svelte:fragment slot="title">
+        <span class="icon">
+            <i class="fa-solid fa-file-import" />
+        </span>
+        Open Existing Project
+    </svelte:fragment>
     <svelte:fragment slot="body">
         <div class="field">
             <label class="label" for="projectFile">
                 Upload Project File (stencil.json)
             </label>
             <div id="projectFile" class="control">
-                <div class="file has-name is-boxed">
+                <div class="file has-name">
                     <label class="file-label">
-                        <input class="file-input" type="file" bind:files />
+                        <input
+                            accept="application/json"
+                            class="file-input"
+                            type="file"
+                            bind:files
+                        />
                         <span class="file-cta">
                             <span class="file-icon">
                                 <i class="fas fa-upload" />
@@ -47,7 +67,7 @@
                             <span class="file-label"> Choose a file… </span>
                         </span>
                         <span class="file-name">
-                            {#if file}
+                            {#if file != null}
                                 {file.name}
                             {/if}
                         </span>
@@ -57,7 +77,14 @@
         </div>
     </svelte:fragment>
     <div slot="footer" class="buttons">
-        <button class="button is-primary">Save changes</button>
+        <button
+            class="button is-primary"
+            on:click={() => {
+                loadProject().then((p) => ($project = p));
+            }}
+        >
+            Save changes
+        </button>
         <button class="button is-light">Cancel</button>
     </div>
 </Modal>

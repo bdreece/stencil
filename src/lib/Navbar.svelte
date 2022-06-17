@@ -19,20 +19,9 @@
 </script>
 
 <script lang="ts">
-    import { writable } from 'svelte/store';
-    import LogInModal from './LogInModal.svelte';
-    import SignUpModal from './SignUpModal.svelte';
-
-    let signUpOpen = writable(false);
-    let logInOpen = writable(false);
-
-    function openSignUp() {
-        $signUpOpen = true;
-    }
-
-    function openLogIn() {
-        $logInOpen = true;
-    }
+    import type { Writable } from 'svelte/store';
+    import View from '../scripts/view';
+    export let activeView: Writable<View>;
 </script>
 
 <div>
@@ -60,17 +49,21 @@
             <div class="navbar-end">
                 <div class="navbar-item">
                     <div class="buttons">
-                        <button class="button is-primary" on:click={openSignUp}>
-                            <strong>Sign up</strong>
+                        <button
+                            class="button is-link is-light"
+                            on:click={() => ($activeView = View.ABOUT)}
+                        >
+                            About
                         </button>
-                        <button class="button is-light" on:click={openLogIn}>
-                            Log in
-                        </button>
+                        <a
+                            class="button is-link"
+                            href="https://github.com/bdreece/stencil"
+                        >
+                            GitHub
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </nav>
-    <SignUpModal isActive={signUpOpen} />
-    <LogInModal isActive={logInOpen} />
 </div>

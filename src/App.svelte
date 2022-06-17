@@ -21,12 +21,10 @@
 
     import Navbar from './lib/Navbar.svelte';
     import LandingView, { LandingViewProps } from './views/LandingView.svelte';
+    import ProjectView from './views/ProjectView.svelte';
     import View from './scripts/view';
 
-    let _activeView = View.LANDING;
-    const activeView = writable(_activeView);
-    activeView.subscribe((view) => (_activeView = view));
-
+    const activeView = writable(View.LANDING);
     const project = writable({
         name: '',
         language: '',
@@ -40,7 +38,9 @@
 
 <div id="app">
     <Navbar />
-    {#if _activeView == View.LANDING}
+    {#if $activeView == View.LANDING}
         <LandingView {...landingView} />
+    {:else if $activeView == View.PROJECT}
+        <ProjectView />
     {/if}
 </div>

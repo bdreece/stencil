@@ -28,3 +28,9 @@
         </button>
     {/each}
 </nav>
+
+<style>
+    .panel {
+        height: 100%;
+    }
+</style>

@@ -63,3 +63,9 @@
         {/if}
     </div>
 </div>
+
+<style>
+    .columns {
+        height: 100%;
+    }
+</style>

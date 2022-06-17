@@ -1,6 +1,4 @@
-<script lang="ts">
-    import { onMount } from 'svelte';
-
+<script lang="ts" context="module">
     /* 
      * stencil - A boilerplate code generator for bootstrapping new projects.
      * Copyright (C) 2022 Brian Reece
@@ -19,11 +17,39 @@
      * along with this program.  If not, see <https://www.gnu.org/licenses/>.
      */
 
-    import { fade } from 'svelte/transition';
-    let condition = false;
-    let duration = 500;
+    import type { Writable } from 'svelte/store';
+    import type { ProjectObject } from '../scripts/project';
+    import View from '../scripts/view';
 
+    export interface LandingViewProps {
+        activeView: Writable<View>;
+        project: Writable<ProjectObject>;
+    }
+</script>
+
+<script lang="ts">
+    import { onMount } from 'svelte';
+    import { writable } from 'svelte/store';
+    import { fade } from 'svelte/transition';
+
+    import CreateProjectModal from '../lib/CreateProjectModal.svelte';
+    import OpenProjectModal from '../lib/OpenProjectModal.svelte';
+
+    export let activeView: Writable<View>;
+    export let project: Writable<ProjectObject>;
+
+    project.subscribe((p) => {
+        if (!(p.name == '' || p.language == '')) {
+            $activeView = View.PROJECT;
+        }
+    });
+
+    let condition = false;
     onMount(() => (condition = true));
+
+    const duration = 500;
+    const createProject = writable(false);
+    const openProject = writable(false);
 </script>
 
 {#if condition}
@@ -44,8 +70,20 @@
             class="buttons is-justify-content-center"
             transition:fade={{ delay: 750, duration }}
         >
-            <button class="button is-link">Create New Project</button>
-            <button class="button is-link">Open Existing Project</button>
+            <button
+                class="button is-link"
+                on:click={() => ($createProject = true)}
+            >
+                Create New Project
+            </button>
+            <button
+                class="button is-link"
+                on:click={() => ($openProject = true)}
+            >
+                Open Existing Project
+            </button>
         </div>
+        <CreateProjectModal {project} isActive={createProject} />
+        <OpenProjectModal isActive={openProject} />
     </div>
 {/if}

@@ -16,4 +16,16 @@
      * You should have received a copy of the GNU Affero General Public License
      * along with this program.  If not, see <https://www.gnu.org/licenses/>.
      */
+
+    import LandingView from './views/LandingView.svelte';
+    import Navbar from './lib/Navbar.svelte';
+
+    let projectLoaded = false;
 </script>
+
+<div id="app">
+    <Navbar />
+    {#if !projectLoaded}
+        <LandingView />
+    {/if}
+</div>

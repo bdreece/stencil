@@ -17,15 +17,33 @@
      * along with this program.  If not, see <https://www.gnu.org/licenses/>.
      */
 
-    import LandingView from './views/LandingView.svelte';
-    import Navbar from './lib/Navbar.svelte';
+    import { writable } from 'svelte/store';
 
-    let projectLoaded = false;
+    import Navbar from './lib/Navbar.svelte';
+    import AboutView from './views/AboutView.svelte';
+    import LandingView, { LandingViewProps } from './views/LandingView.svelte';
+    import View from './scripts/view';
+
+    let _activeView = View.LANDING;
+    const activeView = writable(_activeView);
+    activeView.subscribe((view) => (_activeView = view));
+
+    const project = writable({
+        name: '',
+        language: '',
+    });
+
+    const landingView: LandingViewProps = {
+        activeView,
+        project,
+    };
 </script>
 
 <div id="app">
-    <Navbar />
-    {#if !projectLoaded}
-        <LandingView />
+    <Navbar {activeView} />
+    {#if _activeView == View.LANDING}
+        <LandingView {...landingView} />
+    {:else if _activeView == View.ABOUT}
+        <AboutView />
     {/if}
 </div>

@@ -18,25 +18,25 @@
      */
 
     import type { Writable } from 'svelte/store';
-    import type { ProjectObject } from '../scripts/project';
+    import type { ProjectData } from '../scripts/project';
     import View from '../scripts/view';
 
     export interface LandingViewProps {
         activeView: Writable<View>;
-        project: Writable<ProjectObject>;
+        project: Writable<ProjectData>;
     }
 </script>
 
 <script lang="ts">
     import { onMount } from 'svelte';
     import { writable } from 'svelte/store';
-    import { fade } from 'svelte/transition';
+    import { fade, fly } from 'svelte/transition';
 
     import CreateProjectModal from '../lib/CreateProjectModal.svelte';
     import OpenProjectModal from '../lib/OpenProjectModal.svelte';
 
     export let activeView: Writable<View>;
-    export let project: Writable<ProjectObject>;
+    export let project: Writable<ProjectData>;
 
     project.subscribe((p) => {
         if (!(p.name == '' || p.language == '')) {
@@ -59,17 +59,14 @@
 </script>
 
 {#if condition}
-    <div class="container is-fluid">
+    <div class="container is-fluid" out:fly={{ x: -100 }}>
         <div class="box">
             <section class="hero">
                 <div class="hero-body">
-                    <p class="title" transition:fade={{ delay: 250, duration }}>
+                    <p class="title" in:fade={{ duration }}>
                         Welcome to Stencil!
                     </p>
-                    <p
-                        class="subtitle"
-                        transition:fade={{ delay: 500, duration }}
-                    >
+                    <p class="subtitle" in:fade={{ delay: 200, duration }}>
                         A boilerplate code generator for bootstrapping new
                         projects.
                     </p>
@@ -77,7 +74,7 @@
             </section>
             <div
                 class="buttons is-justify-content-center"
-                transition:fade={{ delay: 750, duration }}
+                in:fade={{ delay: 400, duration }}
             >
                 <button
                     class="button is-child is-link"

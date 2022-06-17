@@ -1,9 +1,29 @@
-<script lang="ts">
+<script lang="ts" context="module">
+    /* 
+     * stencil - A boilerplate code generator for bootstrapping new projects.
+     * Copyright (C) 2022 Brian Reece
+
+     * This program is free software: you can redistribute it and/or modify
+     * it under the terms of the GNU Affero General Public License as published
+     * by the Free Software Foundation, either version 3 of the License, or
+     * (at your option) any later version.
+
+     * This program is distributed in the hope that it will be useful,
+     * but WITHOUT ANY WARRANTY; without even the implied warranty of
+     * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     * GNU Affero General Public License for more details.
+
+     * You should have received a copy of the GNU Affero General Public License
+     * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+     */
+
     import type { Writable } from 'svelte/store';
-    import { writable } from 'svelte/store';
+</script>
+
+<script lang="ts">
     import Modal from '../components/Modal.svelte';
 
-    export let isActive = writable(false);
+    export let isActive: Writable<boolean>;
 
     let files: FileList;
     $: file = files != null && files.length > 0 ? files.item(0) : null;

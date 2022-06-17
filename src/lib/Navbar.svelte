@@ -16,11 +16,13 @@
      * You should have received a copy of the GNU Affero General Public License
      * along with this program.  If not, see <https://www.gnu.org/licenses/>.
      */
+
+    import type { Writable } from 'svelte/store';
 </script>
 
 <script lang="ts">
-    import type { Writable } from 'svelte/store';
     import View from '../scripts/view';
+
     export let activeView: Writable<View>;
 </script>
 

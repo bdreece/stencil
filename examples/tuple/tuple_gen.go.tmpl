@@ -1,0 +1,56 @@
+package tuple
+
+{{ range 17 }}
+{{ if gt . 0 }}
+{{ template "typedef" . }}
+{{ template "methods" . }}
+{{ template "ctor" . }}
+{{ template "impl" . }}
+{{ end }}
+{{ end }}
+
+{{ define "typedef" }}
+type Tuple{{ . }}[{{ template "types" . }} any] struct {
+{{ template "fields" . }}
+}
+{{ end }}
+
+{{ define "fields" }}
+{{ range . }}{{ $i := add . 1 }}Val{{ $i }} T{{ $i }}
+{{ end }}{{ end }}
+
+{{ define "methods" }}
+func ({{ template "tuple" . }}) Size() int { return {{ . }} }
+
+func (t {{ template "tuple" . }}) Values() ({{ template "types" . }}) {
+return t.Val1{{ range sub . 1 }}, t.Val{{ add . 2 }}{{ end }}
+}
+
+func (t {{ template "tuple" . }}) values() []any {
+values := make([]any, {{ . }})
+{{ range . }}values[{{ . }}] = t.Val{{ add . 1 }}
+{{ end }}
+return values
+}
+{{ end }}
+
+{{ define "rcvr" }}t {{ template "tuple" . }}{{ end }}
+
+{{ define "ctor" }}
+func New{{ . }}[{{ template "types" . }} any]({{ template "ctor_params" . }}) *{{ template "tuple" . }} {
+return &{{ template "tuple" . }}{
+{{ range . }}{{ $i := add . 1 }}Val{{ $i }}: v{{ $i }},
+{{ end }}
+}
+}
+{{ end }}
+
+{{ define "ctor_params" }}v1 T1{{ range sub . 1 }}{{ $i := add . 2 }}, v{{ $i }} T{{ $i }}{{ end }}{{ end }}
+
+{{ define "impl" }}
+var _ Tuple = *new(Tuple{{ . }}[any{{ range sub . 1 }}, any{{ end }}])
+{{ end }}
+
+{{ define "tuple" }}Tuple{{ . }}[{{ template "types" . }}]{{ end }}
+
+{{ define "types" }}T1{{ range sub . 1 }}, T{{ add . 2 }}{{ end }}{{ end }}

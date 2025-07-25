@@ -1,5 +1,8 @@
 # stencil
 
+[![Github Actions Workflow Status](https://github.com/bdreece/stencil/actions/workflows/build.yml/badge.svg)](https://github.com/bdreece/stencil/actions/workflows/build.yml)
+[![Go Reference](https://pkg.go.dev/badge/github.com/bdreece/stencil.svg)](https://pkg.go.dev/github.com/bdreece/stencil)
+
 A command-line tool for generic code generation using Go template files.
 
 ## Installation
